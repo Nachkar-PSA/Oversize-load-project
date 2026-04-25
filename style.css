@@ -1,0 +1,132 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background: #f4f6f8;
+}
+
+.header {
+    font-size: x-large;
+    text-align: center;
+    padding: 20px;
+    background: #31445d;
+    color: white;
+}
+
+#from,
+#to {
+    text-transform: uppercase;
+}
+
+#from::placeholder,
+#to::placeholder {
+    text-transform: none;
+}
+
+#statusSelect {
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 16px;
+    padding: 20px;
+}
+
+.card {
+    background: white;
+    padding: 16px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+    padding-top: 45px;
+    overflow: hidden;
+}
+
+.status-badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: block;
+
+    width: fit-content;
+    min-width: 80px;
+
+    text-align: center;
+    padding: 6px 15px;
+    border-radius: 0 10px 0 10px;
+
+    color: white;
+    font-size: 10px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+}
+
+.form-section,
+.dimension-section,
+.search-section {
+    display: flex;
+    gap: 10px;
+    padding: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-section input,
+.dimension-section input,
+.search-section input {
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+.dimension-section button {
+    padding: 8px 14px;
+    border: none;
+    background: #1f2937;
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.dimension-section button:hover {
+    background: #374151;
+}
+
+.delete-btn,
+.edit-btn {
+    width: 60px;
+    margin: 10px 6px 0 0;
+    padding: 7px;
+    border: none;
+    background: crimson;
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.edit-btn {
+    background: rgb(125, 160, 65);
+}
+
+#cancelBtn {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+#cancelBtn:hover {
+    background-color: #a71d2a;
+}

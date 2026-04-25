@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oversize Load Board</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header class="header">
+        <h1>Oversize Load Board</h1>
+        <p>Simple cargo tracking demo</p>
+    </header>
+
+    <section class="form-section">
+
+        <input id="title" placeholder="Cargo title" />
+        <input id="weight" placeholder="Weight (lbs)" type="number" />
+        <input id="from" list="states-list" placeholder="From (state)" />
+        <input id="to" list="states-list" placeholder="To (state)" />
+
+        <select id="statusSelect">
+            <option value="">Select status</option>
+            <option value="Available">Available</option>
+            <option value="In Progress">In Progress</option>
+            <option value="Delivered">Delivered</option>
+        </select>
+
+    </section>
+
+    <section class="dimension-section">
+
+        <input id="length" placeholder="L (ft)" type="number" step="0.1">
+        <input id="width" placeholder="W (ft)" type="number" step="0.1">
+        <input id="height" placeholder="H (ft)" type="number" step="0.1">
+
+        <button id="addBtn">Add load</button>
+        <button id="cancelBtn" style="display: none;">Cancel</button>
+
+    </section>
+
+    <section class="search-section">
+
+        <input id="searchInput" placeholder="Search cargo..." />
+        <input id="weightFilter" placeholder="Min weight (lbs)" type="number" />
+
+    </section>
+
+    <main class="container" id="loads-container">
+
+
+    </main>
+
+    <datalist id="states-list">
+        <option value="AL"></option>
+        <option value="AK"></option>
+        <option value="AZ"></option>
+        <option value="AR"></option>
+        <option value="CA"></option>
+        <option value="CO"></option>
+        <option value="CT"></option>
+        <option value="DE"></option>
+        <option value="FL"></option>
+        <option value="GA"></option>
+        <option value="HI"></option>
+        <option value="ID"></option>
+        <option value="IL"></option>
+        <option value="IN"></option>
+        <option value="IA"></option>
+        <option value="KS"></option>
+        <option value="KY"></option>
+        <option value="LA"></option>
+        <option value="ME"></option>
+        <option value="MD"></option>
+        <option value="MA"></option>
+        <option value="MI"></option>
+        <option value="MN"></option>
+        <option value="MS"></option>
+        <option value="MO"></option>
+        <option value="MT"></option>
+        <option value="NE"></option>
+        <option value="NV"></option>
+        <option value="NH"></option>
+        <option value="NJ"></option>
+        <option value="NM"></option>
+        <option value="NY"></option>
+        <option value="NC"></option>
+        <option value="ND"></option>
+        <option value="OH"></option>
+        <option value="OK"></option>
+        <option value="OR"></option>
+        <option value="PA"></option>
+        <option value="RI"></option>
+        <option value="SC"></option>
+        <option value="SD"></option>
+        <option value="TN"></option>
+        <option value="TX"></option>
+        <option value="UT"></option>
+        <option value="VT"></option>
+        <option value="VA"></option>
+        <option value="WA"></option>
+        <option value="WV"></option>
+        <option value="WI"></option>
+        <option value="WY"></option>
+    </datalist>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
