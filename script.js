@@ -285,7 +285,7 @@ function resetForm() {
     input.value = "";
     input.style.border = "";
   });
-  statusSelect.value = "";
+  statusSelect.selectedIndex = 0;
   addBtn.textContent = "Add Load";
   cancelBtn.style.display = "none";
 }
