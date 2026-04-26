@@ -14,38 +14,50 @@
         <p>Simple cargo tracking demo</p>
     </header>
 
+    <section class="filters-section">
+        <h3 class="filters_title">Filters</h3>
+        <div class="filters-container">
+            <input type="text" id="filterSearch" placeholder="Search by name...">
+            <select id="filterStatus">
+                <option value="">All Statuses</option>
+                <option value="Available">Available</option>
+                <option value="In Progress">In Progress</option>
+                <option value="Delivered">Delivered</option>
+            </select>
+        </div>
+    </section>
+
+    <hr>
+
     <section class="form-section">
+        <div class="form-inner">
+            <h3 class="form_title">Add / Edit Load</h3>
 
-        <input id="title" placeholder="Cargo title" />
-        <input id="weight" placeholder="Weight (lbs)" type="number" />
-        <input id="from" list="states-list" placeholder="From (state)" />
-        <input id="to" list="states-list" placeholder="To (state)" />
+            <div class="main-inputs">
+                <input id="title" placeholder="Cargo title" />
+                <input id="weight" placeholder="Weight (lbs)" type="number" />
+                <input id="from" list="states-list" placeholder="From (state)" />
+                <input id="to" list="states-list" placeholder="To (state)" />
+            </div>
 
-        <select id="statusSelect">
-            <option value="">Select status</option>
-            <option value="Available">Available</option>
-            <option value="In Progress">In Progress</option>
-            <option value="Delivered">Delivered</option>
-        </select>
+            <div class="dimension-inputs">
+                <input id="length" placeholder="L (ft)" type="number" step="0.1">
+                <input id="width" placeholder="W (ft)" type="number" step="0.1">
+                <input id="height" placeholder="H (ft)" type="number" step="0.1">
 
-    </section>
+                <select id="statusSelect">
+                    <option value="" disabled selected>Select status...</option>
+                    <option value="Available">Available</option>
+                    <option value="In Progress">In Progress</option>
+                    <option value="Delivered">Delivered</option>
+                </select>
+            </div>
 
-    <section class="dimension-section">
-
-        <input id="length" placeholder="L (ft)" type="number" step="0.1">
-        <input id="width" placeholder="W (ft)" type="number" step="0.1">
-        <input id="height" placeholder="H (ft)" type="number" step="0.1">
-
-        <button id="addBtn">Add load</button>
-        <button id="cancelBtn" style="display: none;">Cancel</button>
-
-    </section>
-
-    <section class="search-section">
-
-        <input id="searchInput" placeholder="Search cargo..." />
-        <input id="weightFilter" placeholder="Min weight (lbs)" type="number" />
-
+            <div class="form-controls">
+                <button id="addBtn">Add Load</button>
+                <button id="cancelBtn" style="display: none;">Cancel</button>
+            </div>
+        </div>
     </section>
 
     <main class="container" id="loads-container">

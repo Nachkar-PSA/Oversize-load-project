@@ -1,7 +1,6 @@
 console.log("Oversize board loaded");
 
 let editingId = null;
-const statusSelect = document.getElementById("statusSelect");
 
 //id-"loads card"
 const savedLoads = JSON.parse(localStorage.getItem("loads"));
@@ -19,6 +18,7 @@ let loads =
           length: "9.5",
           width: "2.98",
           height: "2.9",
+          status: "Available",
         },
         {
           id: 2,
@@ -29,6 +29,7 @@ let loads =
           length: "50",
           width: "1.85",
           height: "1.85",
+          status: "Available",
         },
         {
           id: 3,
@@ -39,6 +40,7 @@ let loads =
           length: "4.5",
           width: "2.0",
           height: "2.35",
+          status: "Available",
         },
       ];
 if (!savedLoads || savedLoads.length === 0) {
@@ -59,6 +61,11 @@ const toInput = document.getElementById("to");
 const lengthInput = document.getElementById("length");
 const widthInput = document.getElementById("width");
 const heightInput = document.getElementById("height");
+
+const filterSearch = document.getElementById("filterSearch");
+const filterStatus = document.getElementById("filterStatus");
+
+const statusSelect = document.getElementById("statusSelect");
 
 const addBtn = document.getElementById("addBtn");
 const cancelBtn = document.getElementById("cancelBtn");
@@ -139,25 +146,6 @@ addBtn.addEventListener("click", () => {
 });
 cancelBtn.addEventListener("click", resetForm);
 
-//id="search load"
-const searchInput = document.getElementById("searchInput");
-
-searchInput.addEventListener("input", () => {
-  renderLoads();
-});
-
-const weightFilter = document.getElementById("weightFilter");
-
-console.log(weightFilter); //need delete
-
-weightFilter.addEventListener("input", () => {
-  renderLoads();
-});
-
-statusSelect.addEventListener("change", () => {
-  renderLoads();
-});
-
 //id="render loads"
 function renderLoads() {
   container.innerHTML = "";
@@ -173,20 +161,15 @@ function renderLoads() {
     return;
   }
 
-  const searchValue = searchInput.value.toLowerCase();
-  const minWeight = Number(weightFilter.value) || 0;
-  const selectedStatus = statusSelect.value;
+  const searchValue = filterSearch.value.toLowerCase();
+  const selectedStatus = filterStatus.value;
 
   const filteredLoads = loads.filter((load) => {
     const matchesSearch = load.title.toLowerCase().includes(searchValue);
-    const matchesWeight = load.weight >= minWeight;
     const currentLoadStatus = load.status || "Available";
-    const matchesFilters =
-      matchesSearch &&
-      matchesWeight &&
-      (selectedStatus === "" || currentLoadStatus === selectedStatus);
-    const isEditing = load.id === editingId;
-    return matchesFilters || isEditing;
+    const matchesStatus =
+      selectedStatus === "" || currentLoadStatus === selectedStatus;
+    return matchesSearch && matchesStatus;
   });
 
   const finalLoads = filteredLoads.filter(
@@ -303,7 +286,19 @@ function resetForm() {
     input.style.border = "";
   });
   statusSelect.value = "";
-  addBtn.textContent = "Add load";
+  addBtn.textContent = "Add Load";
   cancelBtn.style.display = "none";
 }
 console.log(loads);
+
+//id="filter search load"
+if (filterSearch) {
+  filterSearch.addEventListener("input", () => {
+    renderLoads();
+  });
+}
+if (filterStatus) {
+  filterStatus.addEventListener("change", () => {
+    renderLoads();
+  });
+}
