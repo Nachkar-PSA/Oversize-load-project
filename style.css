@@ -75,11 +75,17 @@ body {
 
 .filters-section {
     max-width: 1400px;
-    margin: 20px;
+    width: 100%;
+    margin: 20px auto;
     padding: 0 20px;
+    box-sizing: border-box;
+}
+
+.filters-container {
     display: flex;
     gap: 15px;
     align-items: center;
+    margin-top: 10px;
 }
 
 .filters-section input[type="text"] {
@@ -233,7 +239,6 @@ body {
 .footer {
     background-color: #31445d;
     color: white;
-    margin-top: 50px;
     padding: 40px 0 20px 0;
 }
 

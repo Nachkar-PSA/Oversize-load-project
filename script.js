@@ -3,18 +3,19 @@ console.log("Oversize board loaded");
 let editingId = null;
 
 //id-"loads card"
-const savedLoads = JSON.parse(localStorage.getItem("loads"));
+const storedLoads = JSON.parse(localStorage.getItem("loads"));
 
 //id="migration - add status if it's missing"
-if (saveLoads) {
-  saveLoads.forEach((load) => {
-    if (!load.status) load.status = "Avalable";
+if (storedLoads && Array.isArray(storedLoads)) {
+  storedLoads.forEach((load) => {
+    if (!load.status) load.status = "Available";
   });
+  localStorage.setItem("loads", JSON.stringify(storedLoads));
 }
 
 let loads =
-  savedLoads && savedLoads.length > 0
-    ? savedLoads
+  storedLoads && storedLoads.length > 0
+    ? storedLoads
     : [
         {
           id: 1,
@@ -50,7 +51,7 @@ let loads =
           status: "Available",
         },
       ];
-if (!savedLoads || savedLoads.length === 0) {
+if (!storedLoads || storedLoads.length === 0) {
   localStorage.setItem("loads", JSON.stringify(loads));
 }
 
@@ -272,7 +273,7 @@ function startEdit(load) {
   lengthInput.value = load.length;
   widthInput.value = load.width;
   heightInput.value = load.height;
-  statusSelect.value = load.status || "Available";
+  statusSelect.value = load.status;
 
   editingId = load.id;
 
