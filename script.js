@@ -5,6 +5,13 @@ let editingId = null;
 //id-"loads card"
 const savedLoads = JSON.parse(localStorage.getItem("loads"));
 
+//id="migration - add status if it's missing"
+if (saveLoads) {
+  saveLoads.forEach((load) => {
+    if (!load.status) load.status = "Avalable";
+  });
+}
+
 let loads =
   savedLoads && savedLoads.length > 0
     ? savedLoads
@@ -141,9 +148,10 @@ addBtn.addEventListener("click", () => {
   }
 
   saveLoads();
-  resetForm();
   renderLoads();
+  resetForm();
 });
+
 cancelBtn.addEventListener("click", resetForm);
 
 //id="render loads"
@@ -161,22 +169,9 @@ function renderLoads() {
     return;
   }
 
-  const searchValue = filterSearch.value.toLowerCase();
-  const selectedStatus = filterStatus.value;
+  const filtered = filteredLoads();
 
-  const filteredLoads = loads.filter((load) => {
-    const matchesSearch = load.title.toLowerCase().includes(searchValue);
-    const currentLoadStatus = load.status || "Available";
-    const matchesStatus =
-      selectedStatus === "" || currentLoadStatus === selectedStatus;
-    return matchesSearch && matchesStatus;
-  });
-
-  const finalLoads = filteredLoads.filter(
-    (l) => l.title && l.title.trim() !== "",
-  );
-
-  if (finalLoads.length === 0) {
+  if (filtered.length === 0) {
     container.innerHTML = `
     <div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #666;">
       <p>No matches found for your search criteria.</p>
@@ -184,38 +179,54 @@ function renderLoads() {
       `;
     return;
   }
+  filtered.forEach((load) => {
+    container.appendChild(createCard(load));
+  });
+}
 
-  finalLoads.forEach((load) => {
-    const card = document.createElement("div");
-    card.classList.add("card");
+//id="logic filter"
+function filteredLoads() {
+  const searchValue = filterSearch.value.toLowerCase();
+  const selectedStatus = filterStatus.value;
 
-    const status = load.status || "Available"; //id="logic status"
+  return loads.filter((load) => {
+    const matchesSearch = load.title.toLowerCase().includes(searchValue);
+    const matchesStatus =
+      selectedStatus === "" || load.status === selectedStatus;
+    return matchesSearch && matchesStatus;
+  });
+}
 
-    let statusColor;
-    switch (status.toLowerCase()) {
-      case "in progress":
-        statusColor = "#ffc107";
-        break;
-      case "delivered":
-        statusColor = "#28a745";
-        break;
-      default:
-        statusColor = "#17a2b8";
-        break;
-    }
+//id="logic create card"
+function createCard(load) {
+  const card = document.createElement("div");
+  card.classList.add("card");
 
-    const weightValue = Number(load.weight); //id="logic wrong data"
-    const weightDisplay =
-      load.weight && !isNaN(weightValue)
-        ? weightValue.toLocaleString("en-US")
-        : "-";
+  const status = load.status; //id="logic status"
 
-    const isOversize = Number(load.width) > 8.5 || Number(load.weight) > 80000;
-    if (isOversize) {
-      card.style.borderLeft = "7px solid #dc3545";
-    }
+  let statusColor;
+  switch (status.toLowerCase()) {
+    case "in progress":
+      statusColor = "#ffc107";
+      break;
+    case "delivered":
+      statusColor = "#28a745";
+      break;
+    default:
+      statusColor = "#17a2b8";
+      break;
+  }
 
-    card.innerHTML = `
+  const weightDisplay = !isNaN(Number(load.weight))
+    ? Number(load.weight).toLocaleString("en-US")
+    : "-";
+
+  const isOversize = Number(load.width) > 8.5 || Number(load.weight) > 80000;
+  if (isOversize) {
+    card.style.borderLeft = "7px solid #dc3545";
+  }
+
+  card.innerHTML = `
             <div class="status-badge" style="background-color: ${statusColor}">${status}</div>
             <h3>${load.title}</h3>
             <P><b>Weight:</b> ${weightDisplay} lbs</P>
@@ -229,14 +240,14 @@ function renderLoads() {
             <button class="delete-btn">Delete</button>
         `;
 
-    const editBtn = card.querySelector(".edit-btn");
-    editBtn.addEventListener("click", () => startEdit(load));
+  card
+    .querySelector(".edit-btn")
+    .addEventListener("click", () => startEdit(load));
+  card
+    .querySelector(".delete-btn")
+    .addEventListener("click", () => deleteLoad(load.id));
 
-    const deleteBtn = card.querySelector(".delete-btn");
-    deleteBtn.addEventListener("click", () => deleteLoad(load.id));
-
-    container.appendChild(card);
-  });
+  return card;
 }
 
 renderLoads();
@@ -246,7 +257,7 @@ function deleteLoad(id) {
   if (confirm("Are you sure you want to delete this load?")) {
     loads = loads.filter((load) => load.id !== id);
 
-    localStorage.setItem("loads", JSON.stringify(loads));
+    saveLoads();
 
     renderLoads();
   }
