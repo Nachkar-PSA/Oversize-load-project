@@ -77,10 +77,15 @@ const filterMinWeight = document.getElementById("filterMinWeight");
 
 const statusSelect = document.getElementById("statusSelect");
 
+const sortSelect = document.getElementById("sortSelect");
+
 const addBtn = document.getElementById("addBtn");
 const cancelBtn = document.getElementById("cancelBtn");
 
 const container = document.getElementById("loads-container");
+
+//id="logic sort"
+sortSelect.addEventListener("change", renderLoads);
 
 //id="logic button"
 addBtn.addEventListener("click", () => {
@@ -151,8 +156,8 @@ addBtn.addEventListener("click", () => {
   }
 
   saveLoads();
-  renderLoads();
   resetForm();
+  renderLoads();
 });
 
 cancelBtn.addEventListener("click", resetForm);
@@ -192,14 +197,25 @@ function filteredLoads() {
   const searchValue = filterSearch.value.toLowerCase();
   const selectedStatus = filterStatus.value;
   const minWeight = Number(filterMinWeight.value) || 0;
+  const sortValue = sortSelect.value;
 
-  return loads.filter((load) => {
+  const result = loads.filter((load) => {
     const matchesSearch = load.title.toLowerCase().includes(searchValue);
     const matchesStatus =
       selectedStatus === "" || load.status === selectedStatus;
     const matchesWeight = load.weight >= minWeight;
     return matchesSearch && matchesStatus && matchesWeight;
   });
+  if (sortValue === "weight-asc") {
+    result.sort((a, b) => a.weight - b.weight);
+  }
+  if (sortValue === "weight-desc") {
+    result.sort((a, b) => b.weight - a.weight);
+  }
+  if (sortValue === "newest") {
+    result.sort((a, b) => b.id - a.id);
+  }
+  return result;
 }
 
 //id="logic create card"
@@ -207,7 +223,7 @@ function createCard(load) {
   const card = document.createElement("div");
   card.classList.add("card");
 
-  const status = load.status; //id="logic status"
+  const status = load.status ?? "Available"; //id="logic status"
 
   let statusColor;
   switch (status.toLowerCase()) {
@@ -320,6 +336,13 @@ if (filterStatus) {
 }
 if (filterMinWeight) {
   filterMinWeight.addEventListener("input", () => {
+    if (Number(filterMinWeight.value) < 0) {
+      filterMinWeight.style.border = "2px solid red";
+      filterMinWeight.title = "Weight cannot be negative";
+    } else {
+      filterMinWeight.style.border = "";
+      filterMinWeight.title = "";
+    }
     renderLoads();
   });
 }

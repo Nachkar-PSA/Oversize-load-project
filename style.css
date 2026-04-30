@@ -82,7 +82,6 @@ body {
 }
 
 .filters-container {
-    display: flex;
     gap: 15px;
     align-items: center;
     margin-top: 10px;
