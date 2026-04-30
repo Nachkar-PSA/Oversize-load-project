@@ -13,6 +13,7 @@ if (storedLoads && Array.isArray(storedLoads)) {
   localStorage.setItem("loads", JSON.stringify(storedLoads));
 }
 
+//id="cards"
 let loads =
   storedLoads && storedLoads.length > 0
     ? storedLoads
@@ -72,6 +73,7 @@ const heightInput = document.getElementById("height");
 
 const filterSearch = document.getElementById("filterSearch");
 const filterStatus = document.getElementById("filterStatus");
+const filterMinWeight = document.getElementById("filterMinWeight");
 
 const statusSelect = document.getElementById("statusSelect");
 
@@ -189,12 +191,14 @@ function renderLoads() {
 function filteredLoads() {
   const searchValue = filterSearch.value.toLowerCase();
   const selectedStatus = filterStatus.value;
+  const minWeight = Number(filterMinWeight.value) || 0;
 
   return loads.filter((load) => {
     const matchesSearch = load.title.toLowerCase().includes(searchValue);
     const matchesStatus =
       selectedStatus === "" || load.status === selectedStatus;
-    return matchesSearch && matchesStatus;
+    const matchesWeight = load.weight >= minWeight;
+    return matchesSearch && matchesStatus && matchesWeight;
   });
 }
 
@@ -311,6 +315,11 @@ if (filterSearch) {
 }
 if (filterStatus) {
   filterStatus.addEventListener("change", () => {
+    renderLoads();
+  });
+}
+if (filterMinWeight) {
+  filterMinWeight.addEventListener("input", () => {
     renderLoads();
   });
 }
